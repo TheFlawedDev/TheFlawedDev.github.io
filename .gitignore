@@ -1,6 +1,52 @@
-# Include your project-specific ignores in this file
-# Read about how to use .gitignore: https://help.github.com/articles/ignoring-files
-# Useful .gitignore templates: https://github.com/github/gitignore
-node_modules
-dist
-.cache
+# IntelliJ IDEA specific files
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea_modules/
+out/
+.editorconfig
+
+# Dependency directories
+node_modules/
+dist/
+build/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Webpack generated files
+webpack.config.dev.js
+webpack.config.prod.js
+webpack.common.js
+
+# Package manager locks
+# Uncomment the following line if you want to ignore package-lock.json
+# package-lock.json
+
+# Temporary files
+*.log
+*.tmp
+.cache/
+
+# Production build files
+build/
+dist/
