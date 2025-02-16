@@ -1,0 +1,41 @@
+
+.main {
+  background-color: #000000;
+  padding: 20em;
+  border-radius: 1em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 10px 10px 20px black;
+}
+
+.main:hover {
+  animation: moveAround 2s infinite ease-in-out;
+}
+
+.main h4 {
+  color: white;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.main p {
+  color: white;
+  padding: 10px 0 30px 50px;
+}
+
+.main a::selection {
+  background: yellowgreen;
+  color: red;
+}
+
+.main a:active {
+  background: orange;
+  color: white;
+}
+
