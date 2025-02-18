@@ -1,23 +1,23 @@
 
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
 .main {
-  background-color: #000000;
-  padding: 10em;
+  max-width: 100%;
+  padding: 5em;
   border-radius: 1em;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
+  background-color: #121212;
   box-shadow: 10px 10px 20px black;
 }
 
-.main:hover {
-  animation: moveAround 2s infinite ease-in-out;
-}
-
-.main header {
+.main header h1 {
   font-size: 1em;
-  color: white;
+  color: #000000;
   position: absolute;
   top: 20px;
   left: 20px;
@@ -25,9 +25,21 @@
   padding: 0;
 }
 
-.main p {
-  color: white;
-  padding: 10px 0 30px 50px;
+.main header h1 {
+  font-family: '', serif;
+  font-size: xxx-large;
+}
+
+main {
+  margin: 0 50px 50px 0;
+}
+
+main p {
+  text-align: left;
+  font-family: "monospace ", sans-serif;
+  font-size: medium;
+  color: #4ad007;
+  padding: 10px 50px 30px 0px;
 }
 
 .main a::selection {
@@ -38,10 +50,6 @@
 .main a:active {
   background: orange;
   color: white;
-}
-
-nav {
-  border-bottom: 1px solid whitesmoke;
 }
 
 .crumbs ol {
@@ -56,8 +64,18 @@ nav {
 .crumb a::after {
   display: inline-block;
   color: #ffffff;
-  content: '>';
+  content: '__';
   font-size: 80%;
   font-weight: bold;
   padding: 0 3px;
 }
+
+#bg {
+  width: 100%;
+  max-width: 600px;
+  display: inline-block;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+
