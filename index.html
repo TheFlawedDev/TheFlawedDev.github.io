@@ -34,22 +34,36 @@
 <div class="main">
   <a href="#">
     <header>
-      <h1>𓃡 studiO</h1>
+      <h1>Welcome</h1>
     </header>
   </a>
-
-  <main>
-    <hr>
-    <article>
-      <p id="message1">Welcome to my Portfolio page, glad to see you are interested in my work.</p>
-      <p id="message2">First of let me introduce myself, I am Jorge Velazquez.</p>
-      <p id="message3">A student at the University of Utah studying computer science.</p>
-      <p id="message4">Below you'll find my projects and some other things about me.</p>
-    </article>
-    <hr>
-  </main>
-
+  <div class="wheel-container">
+    <div class="wheel">
+      <div class="item1"><img
+        style="width: 500px;" src="/img/ipodScan_imgBy_AudreyEmmett-removebg.png"
+        alt="5th generation iPod with a clear front case, exposing the internal board of the device.">
+      </div>
+      <div class="item2"><img style="width: 700px;" src="/img/CameraIMG.png" alt="Black Canon digital camera."></div>
+      <div class="item3"></div>
+      <div class="item4"></div>
+    </div>
+  </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
 
+  gsap.to(".wheel", {
+    rotation: 360,
+    ease: "none",
+    scrollTrigger: {
+      trigger: "body",
+      start: "top top",
+      end: "bottom top",
+      scrub: 1
+    }
+  });
+</script>
 </body>
 </html>
