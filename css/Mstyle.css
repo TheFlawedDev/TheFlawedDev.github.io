@@ -1,16 +1,59 @@
-body header{
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: red;
-  font-family: Charter;
-  font-size: small;
-  padding: 10px;
+
+.noto-sans-symbols-2-regular {
+  font-family: "Noto Sans Symbols 2", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
+
+.inter {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+html {
+  background-color: #ffffff
+}
+
 body {
-  hieght: 400vh;
-  display: flex;
-  justify-content: center;
-  overflow-x: hidden;
+  font-family: 'Inter Semi Bold', sans-serif;
+  font-size: 20px;
+}
+
+header {
+  font-family: 'Noto Sans Symbols 2', sans-serif;
+  color: #91ea01;
+  display: block; /* This helps with transformations */
+  /*background-color: #a01313;*/
+  width: 1120px;
+  height: 100px;
+  margin: 0 auto;
+  font-size: 30px;
+  }
+
+.content-box{
+  flex-shrink: 0;
+  align-items: center;
+  background-color: #ffffff;
+  border: medium solid black;
+  width: 1120px;
+  height: 650px;
+  margin: 30px auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.circle {
+  width: 1000px;
+  height: 1000px;
+  border-radius: 1000px;
+  background: linear-gradient(306deg, #838383 3.33%, #E9E9E9 39.86%);
+  box-shadow: -10px 40px 31.7px 25px rgba(0, 0, 0, 0.49);
+  /*overflow: hidden;*/
+  background-color: #c00404;
+  position: absolute;
+  right: 360px;
+  top: 50%;
+  transform: translateY(-50%);
 }
