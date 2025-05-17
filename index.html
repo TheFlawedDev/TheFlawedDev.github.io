@@ -1,6 +1,5 @@
 <!doctype html>
 <html class="no-js" lang="en-US">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,8 +32,28 @@
 </header>
 <p>
 <div class="content-box">
-  <div class="circle"></div>
+  <div class="circle">
+    <button popovertarget="my-popover">Open Popover</button>
+    <div id="my-popover" popover>
+      <div id="popover-content">
+          <div id="left-content">
+            <div class="music-header">
+              myMusic <span>▶</span>
+            </div>
+            <ul class="song-list">
+              <li class="active">Mad Rush - Philip Glass</li>
+              <li>Kyoko's House - Philip</li>
+              <li>Lament - RoboHands</li>
+              <li>Safe In Your Skin - Till</li>
+              <li>Do You Know - Texas</li>
+            </ul>
+          </div>
+        <div id="right-content">
+          <img src="img/cover/mad-rush.png" alt="Album Cover" id="album-cover">
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-</p>
 </body>
 </html>
