@@ -85,7 +85,7 @@ button[popovertarget="my-popover"] {
   border-radius: 15px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(9.9px);
-  padding: 15px;
+  /*padding: 1px;*/
   width: 556px;
   height: 419px;
   /*transform-origin: center top;*/
@@ -101,7 +101,7 @@ button[popovertarget="my-popover"] {
   font-size: 20px;
   text-align: center;
   padding: 10px 10px;
-  width: 310px;
+  width: 338px;
   height: 256px;
 
   /* Centering styles */
@@ -177,7 +177,7 @@ button[popovertarget="my-popover"] {
 }
 
 .song-list li:hover:not(.active) {
-  background-color: #eaeaea;
+  background-color: #D5D5D5;
 }
 
 .song-list li.active:hover {
