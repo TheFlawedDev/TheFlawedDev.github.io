@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Get all list items
   const songItems = document.querySelectorAll('.song-list li');
   const albumArtElement = document.querySelector('#right-content img');
+  const buttons = document.querySelectorAll('.object button');
 
   // Create a div to hold the SoundCloud player (initially hidden)
   const playerContainer = document.createElement('div');
@@ -45,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       console.log('Selected song:', songTitle);
 
+
       // Update the album art based on the song title
       updateAlbumArt(songTitle);
 
@@ -52,7 +54,104 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  //click event listener to each button
+  buttons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Use data-action attribute to determine the action
+      const action = this.dataset.action;
 
+      this.classList.add('active');
+
+      // Handle different button actions
+      switch(action) {
+        case 'menu':
+          // Popover is handled by the browser
+          break;
+        case 'pause':
+        case 'forward':
+        case 'backward':
+          playerAction(action);
+          break;
+      }
+
+      // Remove active class after short delay
+      setTimeout(() => {
+        this.classList.remove('active');
+      }, 200);
+    });
+  });
+
+
+  function playerAction(action) {
+    // Get currently active song
+    const activeSong = document.querySelector('.song-list li.active');
+    const songItems = document.querySelectorAll('.song-list li');
+
+    // Check if the SoundCloud widget is initialized
+    if (!scWidget) {
+      console.log('SoundCloud widget not initialized yet');
+
+      // If the action is pause (play/pause button), initialize with first song
+      if (action === 'pause') {
+        const firstSong = songItems[0];
+        if (firstSong) {
+          firstSong.click(); // Trigger click on first song to start playback
+        }
+      }
+      return;
+    }
+
+    // Check if a track is currently playing
+    scWidget.isPaused(function(isPaused) {
+      // If no track is playing and action is not pause, do nothing
+      if (isPaused && action !== 'pause') {
+        console.log('No track is playing. Press play first.');
+        return;
+      }
+
+      switch(action) {
+        case 'pause':
+          // Toggle play/pause
+          if (isPaused) {
+            // If paused and no active song, play the first song
+            if (!activeSong) {
+              songItems[0].click();
+            } else {
+              scWidget.play();
+            }
+          } else {
+            scWidget.pause();
+          }
+          break;
+
+        case 'forward':
+          // Find the next song in the list
+          if (activeSong) {
+            const nextSong = activeSong.nextElementSibling || songItems[0]; // Loop back to first song if at end
+            nextSong.click(); // Trigger click to play next song
+          } else {
+            // If no active song but trying to go forward, play the first song
+            songItems[0].click();
+          }
+          break;
+
+        case 'backward':
+          // Find the previous song in the list
+          if (activeSong) {
+            const index = Array.from(songItems).indexOf(activeSong);
+            const prevIndex = (index - 1 + songItems.length) % songItems.length; // Handle going back from first song
+            songItems[prevIndex].click(); // Trigger click to play previous song
+          } else {
+            // If no active song but trying to go backward, play the last song
+            songItems[songItems.length - 1].click();
+          }
+          break;
+
+        default:
+          console.log('Unknown action:', action);
+      }
+    });
+  }
   function updateAlbumArt(songTitle) {
     console.log('Updating album art for:', songTitle);
 
@@ -128,4 +227,5 @@ document.addEventListener('DOMContentLoaded', function() {
       console.error('No SoundCloud track found for:', songTitle);
     }
   }
+
 });

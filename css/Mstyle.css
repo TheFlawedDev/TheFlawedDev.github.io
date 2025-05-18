@@ -51,22 +51,58 @@ header {
   box-shadow: -10px 40px 31.7px 25px rgba(0, 0, 0, 0.49);
   /*overflow: hidden;*/
   background-color: #c00404;
-  position: absolute;
+  position: relative;
   right: 360px;
   top: 50%;
   transform: translateY(-50%);
-}
 
-button[popovertarget="my-popover"] {
+}
+.object button {
+  /* Copy all styles from your popover button */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
   position: absolute;
-  border-radius: 50%;
   padding: 10px;
   width: 80px;
-  top: 50%;
+  background-color: rgba(255, 255, 255, 0);
+
+}
+
+/* Position each of the other buttons */
+button[popovertarget="my-popover"] {
+  top: 56%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 10; /* This ensures the button appears above the circle */
-  background-color: red/* Add any other button styling you need */
+  z-index: 10;
+}
+.object button:nth-of-type(2) {
+  top: 60%;
+  right: 55%;
+  width: 40px;
+  height: 60px;
+  transform: translate(0, 0); /* Reset any transform from the first button */
+}
+.object button:nth-of-type(3) {
+  bottom: 26%;
+  left: 55%;
+  width: 40px;
+  height: 60px;
+  transform: translate(0, 0);
+}
+
+.object button:nth-of-type(4) {
+  bottom: 17%;
+  right: 45%;
+  width: 60px;
+  height: 40px;
+  transform: translate(0, 0);
+
 }
 
 @keyframes growFadeIn {
@@ -79,6 +115,7 @@ button[popovertarget="my-popover"] {
     transform: scale(1) translateY(0);
   }
 }
+
 #my-popover[popover]:popover-open {
   /* From https://css.glass */
   background-color: rgba(255, 255, 255, 0);
@@ -193,4 +230,33 @@ button[popovertarget="my-popover"] {
   position: absolute; /* Ensure the image is contained within its parent */
   top: 0;
   left: 0;
+}
+
+/* Base styling for all objects */
+.object {
+  position: absolute;
+  width: auto; /* Let the content determine the width */
+}
+
+/* Target the image directly */
+.object img {
+  width: 50%; /* Make the image 50% of its natural size */
+  height: auto; /* Maintain aspect ratio */
+  display: block;
+}
+
+/* Position the first object */
+.object:nth-child(1) {
+  right: 40px; /* Adjust this value to position from right edge of the circle */
+  top: 300px;   /* Adjust this value to position from top of the circle */
+  width: auto;  /* Let the content determine width instead of 100% */
+  /*background-color: red; !* For debugging *!*/
+}
+
+#ipod {
+  width: 450px; /* Try a fixed width instead of percentage */
+  height: auto;
+  display: block;
+  transform: rotate(2deg);
+  /*border: 2px solid blue; !* To see if the image is loading but maybe invisible *!*/
 }

@@ -33,7 +33,9 @@
 <p>
 <div class="content-box">
   <div class="circle">
-    <button popovertarget="my-popover" type="button" name="menu">Menu</button>
+    <div class="object">
+      <img  id='ipod' src="img/ipodScan_imgBy_AudreyEmmett-removebg.png">
+    <button popovertarget="my-popover" class="menu-button" type="button" name="menu" data-action="menu"></button>
     <div id="my-popover" popover>
       <div id="popover-content">
           <div id="left-content">
@@ -53,7 +55,11 @@
         </div>
       </div>
     </div>
+      <button class="backward-button" type="button" data-action="backward"></button>
+      <button class="forward-button" type="button" data-action="forward"></button>
+      <button class="pause-button" type="button" data-action="pause"></button>
 
+    </div>
   </div>
 </div>
 </body>
