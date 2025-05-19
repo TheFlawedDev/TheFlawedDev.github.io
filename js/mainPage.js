@@ -1,8 +1,27 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Get all list items
+  let lastScrollTop = 0;
+  let rotation = 0;
+  const circle = document.querySelector('.circle');
   const songItems = document.querySelectorAll('.song-list li');
   const albumArtElement = document.querySelector('#right-content img');
   const buttons = document.querySelectorAll('.object button');
+  const gradientLayer = document.createElement('div');
+
+  gradientLayer.className = 'circle-gradient';
+  circle.parentNode.insertBefore(gradientLayer, circle.nextSibling);
+
+  window.addEventListener('wheel', (e) => {
+    const delta = e.deltaY;
+
+    // Scroll down = positive delta → rotate clockwise
+    // Scroll up = negative delta → rotate counter-clockwise
+    rotation += delta * 0.2; // Adjust multiplier for sensitivity
+
+    circle.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
+  });
+
+
 
   // Create a div to hold the SoundCloud player (initially hidden)
   const playerContainer = document.createElement('div');
