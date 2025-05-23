@@ -5,11 +5,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const circle = document.querySelector('.circle');
   const songItems = document.querySelectorAll('.song-list li');
   const albumArtElement = document.querySelector('#right-content img');
-  const buttons = document.querySelectorAll('.object button');
+  const buttons = document.querySelectorAll('.backward-button, .forward-button, .pause-button, .menu-button');
   const gradientLayer = document.createElement('div');
+  const objects = document.querySelectorAll('.object');
 
+  console.log('Found buttons:', buttons.length);
   gradientLayer.className = 'circle-gradient';
   circle.parentNode.insertBefore(gradientLayer, circle.nextSibling);
+
 
   window.addEventListener('wheel', (e) => {
     const delta = e.deltaY;
@@ -19,9 +22,29 @@ document.addEventListener('DOMContentLoaded', function() {
     rotation += delta * 0.2; // Adjust multiplier for sensitivity
 
     circle.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
+
+    if (rotation == (360 * 2)) {
+      rotation = 0;
+      // circle.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
+      circle.style.transition = `transform: 1s ease-in-out`;
+    }
+
   });
 
+  //Object Scale Effect
+  objects.forEach(obj => {
+    // Scale up on mouse enter
+    obj.addEventListener('mouseenter', () => {
+      obj.style.transition = 'transform 0.3s ease'; // Add smooth transition
+      obj.style.transform = 'scale(1)'; // Scale up to 120%
+    });
 
+    // Scale back on mouse leave
+    obj.addEventListener('mouseleave', () => {
+      obj.style.transition = 'transform 0.3s ease'; // Maintain smooth transition
+      obj.style.transform = 'scale(0.7)'; // Reset to the original size
+    });
+  });
 
   // Create a div to hold the SoundCloud player (initially hidden)
   const playerContainer = document.createElement('div');
@@ -103,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function playerAction(action) {
     // Get currently active song
+    console.log('playerAction called with:', action); // Add this line
     const activeSong = document.querySelector('.song-list li.active');
     const songItems = document.querySelectorAll('.song-list li');
 
