@@ -23,10 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     circle.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
 
-    if (rotation == (360 * 2)) {
+    if (Math.abs(rotation) >= (360 * 2)) {
+      circle.style.transition = `transform: 6s ease-in-out`;
       rotation = 0;
-      // circle.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
-      circle.style.transition = `transform: 1s ease-in-out`;
+      circle.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
     }
 
   });
