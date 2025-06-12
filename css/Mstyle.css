@@ -12,16 +12,16 @@
 }
 
 html {
-  background-color: #ffffff
+  background-color: #ffffff;
 }
 
 body {
-  font-family: 'Inter Semi Bold', sans-serif;
+  font-family: "Inter Semi Bold", sans-serif;
   font-size: 20px;
 }
 
 header {
-  font-family: 'Noto Sans Symbols 2', sans-serif;
+  font-family: "Noto Sans Symbols 2", sans-serif;
   color: #171515;
   display: block; /* This helps with transformations */
   /*background-color: #a01313;*/
@@ -29,9 +29,9 @@ header {
   height: 100px;
   margin: 0 auto;
   font-size: 30px;
-  }
+}
 
-.content-box{
+.content-box {
   flex-shrink: 0;
   align-items: center;
   background-color: #ffffff;
@@ -42,7 +42,6 @@ header {
   position: relative;
   overflow: hidden;
   /*background: linear-gradient(306deg, #4ab4c2 3.33%, #ef0d0d 39.86%);*/
-
 }
 .circle,
 .circle-gradient {
@@ -68,7 +67,7 @@ header {
   height: 1000px;
   border-radius: 50%;
   box-shadow: -10px 40px 31.7px 25px rgba(0, 0, 0, 0.49);
-  background: linear-gradient(306deg, #838383 3.33%, #E9E9E9 39.86%);
+  background: linear-gradient(306deg, #838383 3.33%, #e9e9e9 39.86%);
   position: absolute;
   right: 360px;
   top: 50%;
@@ -90,7 +89,6 @@ header {
   padding: 10px;
   width: 80px;
   background-color: rgba(255, 255, 255, 0);
-
 }
 
 /* Position each of the other buttons */
@@ -103,7 +101,9 @@ button[popovertarget="my-popover"] {
   /*background-color: red;*/
 }
 
-.backward-button, .forward-button, .pause-button {
+.backward-button,
+.forward-button,
+.pause-button {
   position: absolute;
   z-index: 10;
   width: 40px;
@@ -165,7 +165,7 @@ button[popovertarget="my-popover"] {
 /*inner popover content*/
 #popover-content {
   border-radius: 5px;
-  background: rgba(255, 255, 255, 0.50);
+  background: rgba(255, 255, 255, 0.5);
   box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.19) inset;
   font-size: 20px;
   text-align: center;
@@ -246,7 +246,7 @@ button[popovertarget="my-popover"] {
 }
 
 .song-list li:hover:not(.active) {
-  background-color: #D5D5D5;
+  background-color: #d5d5d5;
 }
 
 .song-list li.active:hover {
@@ -285,18 +285,18 @@ button[popovertarget="my-popover"] {
 .object:nth-child(1) {
   /*transform: translate(-50%, -50%);*/
   right: 0; /* Adjust this value to position from right edge of the circle */
-  top: 300px;   /* Adjust this value to position from top of the circle */
-  width: 40%;  /* Let the content determine width instead of 100% */
-  /*background-color: red; !* For debugging *!*/
+  top: 300px; /* Adjust this value to position from top of the circle */
+  width: 40%; /* Let the content determine width instead of 100% */
+  /* background-color: red; !* For debugging *! */
 }
 .object:nth-child(2) {
   right: 300px;
   top: 5px;
   /* You can override size for specific objects if needed */
-  width: 40%
+  width: 40%;
 }
 .object:nth-child(3) {
-  /*transform: translate(-50%, -50%);*/
+  /* transform: translate(-50%, -50%); */
   /*right: 20px;*/
   left: 10px;
   top: 300px;
@@ -307,21 +307,11 @@ button[popovertarget="my-popover"] {
 
   /*right: 0px;*/
   right: 300px;
-  top:550px;
+  top: 550px;
   /*height: 10%;*/
   width: 50%;
 }
 
-
-/*.object:nth-child(2) img{*/
-/*  top: 50%;*/
-/*  right: 0;*/
-/*  transform: translateY(-50%);*/
-/*  width: 80%; !* Make the image 50% of its natural size *!*/
-/*  height: auto; !* Maintain aspect ratio *!*/
-/*  display: block;*/
-/*  !*background-color: black;*!*/
-/*}*/
 #ipod {
   width: 450px; /* Try a fixed width instead of percentage */
   height: auto;
@@ -332,6 +322,7 @@ button[popovertarget="my-popover"] {
 
 .image-wrapper {
   position: relative;
+  /* background: red; */
   /*transform-origin: center center;*/
   /*transform: rotate(20deg);*/
 }
@@ -347,7 +338,61 @@ button[popovertarget="my-popover"] {
   filter: blur(8px);
   box-shadow:
     1px 1px 30px rgb(0, 0, 0, 1),
-    1px 1px  30px rgba(0, 0, 0, 1),
-    1px 1px  30px rgba(0, 0, 0, 1);
+    1px 1px 30px rgba(0, 0, 0, 1),
+    1px 1px 30px rgba(0, 0, 0, 1);
   z-index: -1;
+}
+.image-wrapper1 > .open-popup-app-button {
+  background: red;
+  right: 50px;
+  top: 50px;
+  width: 80%;
+  height: 75%;
+  transform: rotate(-9deg);
+  background-color: rgba(255, 255, 255, 0);
+  cursor: pointer;
+}
+/* Initially hide the pop-up */
+.popup {
+  display: none;
+  position: fixed; /* Keeps the pop-up in place */
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+}
+
+/* Class to display the pop-up */
+.popup.show {
+  display: flex; /* Or 'block', depending on your layout needs */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style the content inside the pop-up */
+.popup-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  position: relative;
+}
+
+/* Style the close button */
+.close-btn {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
