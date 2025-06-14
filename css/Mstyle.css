@@ -162,6 +162,7 @@ button[popovertarget="my-popover"] {
   border: 1px solid rgba(255, 255, 255, 0.22);
   animation: growFadeIn 0.4s ease forwards;
 }
+
 /*inner popover content*/
 #popover-content {
   border-radius: 5px;
@@ -352,16 +353,23 @@ button[popovertarget="my-popover"] {
   background-color: rgba(255, 255, 255, 0);
   cursor: pointer;
 }
+
 /* Initially hide the pop-up */
 .popup {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(9.9px);
+  border-radius: 15px;
   display: none;
-  position: fixed; /* Keeps the pop-up in place */
+  position: fixed;
   z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+  /* Position the top-left corner of the div in the center of the screen */
+  padding: 30px;
+  left: 50%;
+  top: 50%;
+  /* Use transform to shift the div back by half of its own width and height */
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 50%;
 }
 
 /* Class to display the pop-up */
@@ -373,20 +381,82 @@ button[popovertarget="my-popover"] {
 
 /* Style the content inside the pop-up */
 .popup-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 500px;
+  background-color: white;
+  /* margin: auto; */
+  /* padding: 20px; */
+  border-radius: 15px;
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
   position: relative;
+  border: 2px solid black; /* To see if the image is loading but maybe invisible *! */
+}
+
+/*Style synonym-network-app heading*/
+.popup-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.popup-heading h2 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+/*Style  synonym-network-app body*/
+.popup-body {
+  padding: 20px 15px;
+  min-height: 300px;
+  background-color: white;
+}
+
+/*Style  synonym-network-app buttons*/
+.popup-btns {
+  margin: 5px;
+  padding: 0 10px;
+  display: flex;
+  gap: 9px;
+  /* flex-wrap: wrap; */
+  align-items: center;
+  /* justify-content: flex-end; */
+  background-color: white;
+}
+
+.popup-btns input[type="text"] {
+  max-width: 120px;
+  padding: 8px 10px;
+  height: 22px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.popup-btns button {
+  padding: 8px 16px;
+  border: none;
+  height: 41px;
+  width: 150px;
+  background-color: #222;
+  color: white;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.popup-btns button:hover {
+  background-color: #0056b3;
 }
 
 /* Style the close button */
 .close-btn {
   color: #aaa;
   float: right;
-  font-size: 28px;
+  /* padding:20px 15px; */
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
