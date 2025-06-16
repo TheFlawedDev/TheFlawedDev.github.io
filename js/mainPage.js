@@ -335,8 +335,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // 1. Display the analysis text
       const pathString = path.join(" → ");
       popupBody.innerHTML = `
-        <p><strong>Path:</strong> ${pathString}<br></p>
-        <p><strong>Connection Level:</strong> ${level}</p>
+        <p style="color: red; font-size: 100"><strong>Path:</strong> ${pathString}<br>
+        <strong>Connection Level:</strong> ${level}</p>
       `;
 
       // 2. Build the graph elements for Cytoscape
