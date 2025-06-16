@@ -303,7 +303,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!word1 || !word2) {
       popupBody.innerHTML =
-        '<p style="color: red;">Please enter both words.</p>';
+        '<p style="color: green;">Please enter both words.</p>';
       return;
     }
 
@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (!response.ok) {
         // Display an error if the request failed
-        popupBody.innerHTML = `<p style="color: red;">Error: ${data.error || "Could not find a path."}</p>`;
+        popupBody.innerHTML = `<p style="color: black;">Error: ${data.error || "Could not find a path."}</p>`;
       } else {
         // Your PathFindingController returns a list of strings for the shortest path
         // Display the successful result

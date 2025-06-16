@@ -6,7 +6,7 @@ exports.handler = async function (event, context) {
   const apiUrl = `https://synonym-network-api.onrender.com/api/path/shortest?word1=${word1}&word2=${word2}`;
 
   // Get the secret API key from the environment variables you set in the Netlify UI
-  const apiKey = process.env.SYNONYM_API_KEY;
+  const apiKey = process.env.API_SECURITY_KEY;
 
   try {
     const response = await fetch(apiUrl, {
