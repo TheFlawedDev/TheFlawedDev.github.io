@@ -17,7 +17,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const inputField2 = document.getElementById("inputField2");
   const submitBtn = document.getElementById("submit-btn");
   const popupBody = document.querySelector(".popup-api-response");
-  console.log("Found buttons:", buttons.length);
+  const graphContainer = document.getElementById("cy");
+
   gradientLayer.className = "circle-gradient";
   circle.parentNode.insertBefore(gradientLayer, circle.nextSibling);
 
@@ -291,15 +292,15 @@ document.addEventListener("DOMContentLoaded", function () {
     popupWindow.classList.remove("show");
   });
 
-  // 4. Optional: Hide the pop-up when clicking outside of it
+  // 4.Hide the pop-up when clicking outside of it
   window.addEventListener("click", (event) => {
     if (event.target == popupWindow) {
       popupWindow.classList.remove("show");
     }
   });
   submitBtn.addEventListener("click", async () => {
-    const word1 = inputField1.value.trim();
-    const word2 = inputField2.value.trim();
+    const word1 = inputField1.value.trim().toLowerCase();
+    const word2 = inputField2.value.trim().toLowerCase();
 
     if (!word1 || !word2) {
       popupBody.innerHTML =
@@ -308,29 +309,124 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Show a loading message
-    popupBody.innerHTML = "<p>Finding path...</p>";
+    popupBody.innerHTML = "<p>Exploring synonym network...</p>";
+    graphContainer.style.display = "none"; // Hide old graph
 
     try {
-      // The endpoint for your Netlify function.
-      // It includes the words as query parameters.
-      const proxyUrl = `/.netlify/functions/proxy?word1=${word1}&word2=${word2}`;
+      // Call our flexible proxy, specifying the 'explore' meta-endpoint
+      const proxyUrl = `/.netlify/functions/proxy?endpoint=explore&word1=${word1}&word2=${word2}`;
 
       const response = await fetch(proxyUrl);
       const data = await response.json();
 
       if (!response.ok) {
-        // Display an error if the request failed
-        popupBody.innerHTML = `<p style="color: red;">Error: ${data.error || "Could not find a path."}</p>`;
-      } else {
-        // Your PathFindingController returns a list of strings for the shortest path
-        // Display the successful result
-        const pathString = data.join(" → ");
-        popupBody.innerHTML = `<p><strong>Shortest Path:</strong><br>${pathString}<br> </p>`;
+        analysisArea.innerHTML = `<p style="color: red;">Error: ${data.error || "Could not fetch data."}</p>`;
+        return;
       }
+
+      // We now have { path: [...], level: #, synonyms: {...} }
+      const { path, level, synonyms } = data;
+
+      if (!path || path.length === 0) {
+        analysisArea.innerHTML = "<p>No path found between these words.</p>";
+        return;
+      }
+
+      // 1. Display the analysis text
+      const pathString = path.join(" → ");
+      analysisArea.innerHTML = `
+        <p><strong>Path:</strong> ${pathString}</p>
+        <p><strong>Connection Level:</strong> ${level}</p>
+      `;
+
+      // 2. Build the graph elements for Cytoscape
+      const elements = [];
+      const addedNodes = new Set();
+
+      // Add nodes and edges from the synonyms map
+      for (const word in synonyms) {
+        if (!addedNodes.has(word)) {
+          elements.push({ data: { id: word } });
+          addedNodes.add(word);
+        }
+        synonyms[word].forEach((synonym) => {
+          if (!addedNodes.has(synonym)) {
+            elements.push({ data: { id: synonym } });
+            addedNodes.add(synonym);
+          }
+          elements.push({
+            data: { id: `${word}-${synonym}`, source: word, target: synonym },
+          });
+        });
+      }
+
+      // 3. Render the Graph
+      graphContainer.style.display = "block"; // Show the container
+      const cy = cytoscape({
+        container: graphContainer,
+        elements: elements,
+
+        // Style the graph similar to your Java app
+        style: [
+          {
+            // Default node style
+            selector: "node",
+            style: {
+              "background-color": "#808080", // Gray for general synonyms
+              label: "data(id)",
+              "font-size": "12px",
+              color: "#fff",
+              "text-outline-color": "#555",
+              "text-outline-width": 2,
+            },
+          },
+          {
+            // Default edge style
+            selector: "edge",
+            style: {
+              width: 1.5,
+              "line-color": "#ccc",
+              "curve-style": "bezier",
+            },
+          },
+          ...path.map((word) => ({
+            // Style for nodes in the main path
+            selector: `node[id = '${word}']`,
+            style: { "background-color": "#2E8B57" }, // Sea Green for path nodes
+          })),
+          {
+            // Specific style for the start node
+            selector: `node[id = '${word1}']`,
+            style: { "background-color": "#3b82f6" }, // Blue
+          },
+          {
+            // Specific style for the end node
+            selector: `node[id = '${word2}']`,
+            style: { "background-color": "#ef4444" }, // Red
+          },
+          ...Array.from({ length: path.length - 1 }).map((_, i) => ({
+            // Style for edges in the main path
+            selector: `edge[id = '${path[i]}-${path[i + 1]}'], edge[id = '${path[i + 1]}-${path[i]}']`,
+            style: {
+              "line-color": "#3b82f6", // Blue for path edges
+              width: 3,
+            },
+          })),
+        ],
+
+        layout: {
+          name: "cose",
+          animate: "end",
+          padding: 30,
+          animationDuration: 1000,
+          randomize: true,
+        },
+      });
     } catch (error) {
-      console.error("Error fetching data:", error);
-      popupBody.innerHTML =
+      console.error("Error fetching or rendering graph:", error);
+      analysisArea.innerHTML =
         '<p style="color: red;">An unexpected error occurred.</p>';
+      graphContainer.style.display = "none";
     }
   });
 });

@@ -433,7 +433,7 @@ button[popovertarget="my-popover"] {
   height: 5vw;
   width: 100vw;
   background-color: white;
-  padding: 5px;
+  padding: 10px;
   font-weight: 300;
 }
 /*Style  synonym-network-app buttons*/
