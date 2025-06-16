@@ -432,7 +432,9 @@ button[popovertarget="my-popover"] {
   flex-shrink: 0;
   height: 5vw;
   width: 100vw;
-  background-color: red;
+  background-color: white;
+  padding: 5px;
+  font-weight: 300;
 }
 /*Style  synonym-network-app buttons*/
 .popup-btns {
