@@ -13,7 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const openPopupButton = document.getElementById("open-popup-app-button");
   const popupWindow = document.getElementById("popup-window");
   const closeButton = document.querySelector(".close-btn");
-
+  const inputField1 = document.getElementById("inputField1");
+  const inputField2 = document.getElementById("inputField2");
+  const submitBtn = document.getElementById("submit-btn");
+  const popupBody = document.querySelector(".popup-api-response");
   console.log("Found buttons:", buttons.length);
   gradientLayer.className = "circle-gradient";
   circle.parentNode.insertBefore(gradientLayer, circle.nextSibling);
@@ -292,6 +295,42 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("click", (event) => {
     if (event.target == popupWindow) {
       popupWindow.classList.remove("show");
+    }
+  });
+  submitBtn.addEventListener("click", async () => {
+    const word1 = inputField1.value.trim();
+    const word2 = inputField2.value.trim();
+
+    if (!word1 || !word2) {
+      popupBody.innerHTML =
+        '<p style="color: red;">Please enter both words.</p>';
+      return;
+    }
+
+    // Show a loading message
+    popupBody.innerHTML = "<p>Finding path...</p>";
+
+    try {
+      // The endpoint for your Netlify function.
+      // It includes the words as query parameters.
+      const proxyUrl = `/.netlify/functions/proxy?word1=${word1}&word2=${word2}`;
+
+      const response = await fetch(proxyUrl);
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Display an error if the request failed
+        popupBody.innerHTML = `<p style="color: red;">Error: ${data.error || "Could not find a path."}</p>`;
+      } else {
+        // Your PathFindingController returns a list of strings for the shortest path
+        // Display the successful result
+        const pathString = data.join(" → ");
+        popupBody.innerHTML = `<p><strong>Shortest Path:</strong> ${pathString}</p>`;
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      popupBody.innerHTML =
+        '<p style="color: red;">An unexpected error occurred.</p>';
     }
   });
 });

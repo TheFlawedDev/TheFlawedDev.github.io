@@ -427,6 +427,13 @@ button[popovertarget="my-popover"] {
   min-height: 0;
 }
 
+.popup-api-response {
+  display: flex;
+  flex-shrink: 0;
+  height: 5vw;
+  width: 100vw;
+  background-color: red;
+}
 /*Style  synonym-network-app buttons*/
 .popup-btns {
   margin: 10px;
