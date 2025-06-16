@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const data = await response.json();
 
       if (!response.ok) {
-        analysisArea.innerHTML = `<p style="color: red;">Error: ${data.error || "Could not fetch data."}</p>`;
+        popupBody.innerHTML = `<p style="color: red;">Error: ${data.error || "Could not fetch data."}</p>`;
         return;
       }
 
@@ -328,13 +328,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const { path, level, synonyms } = data;
 
       if (!path || path.length === 0) {
-        analysisArea.innerHTML = "<p>No path found between these words.</p>";
+        popupBody.innerHTML = "<p>No path found between these words.</p>";
         return;
       }
 
       // 1. Display the analysis text
       const pathString = path.join(" → ");
-      analysisArea.innerHTML = `
+      popupBody.innerHTML = `
         <p><strong>Path:</strong> ${pathString}</p>
         <p><strong>Connection Level:</strong> ${level}</p>
       `;
@@ -424,7 +424,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     } catch (error) {
       console.error("Error fetching or rendering graph:", error);
-      analysisArea.innerHTML =
+      popupBody.innerHTML =
         '<p style="color: red;">An unexpected error occurred.</p>';
       graphContainer.style.display = "none";
     }
