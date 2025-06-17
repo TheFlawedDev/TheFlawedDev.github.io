@@ -335,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // 1. Display the analysis text
       const pathString = path.join(" → ");
       popupBody.innerHTML = `
-        <p style="color: red; font-size: 100"><strong>Path:</strong> ${pathString}<br>
+        <p><strong>Path:</strong> ${pathString}<br>
         <strong>Connection Level:</strong> ${level}</p>
       `;
 
