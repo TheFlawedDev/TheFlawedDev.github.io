@@ -436,10 +436,10 @@ button[popovertarget="my-popover"] {
 
 .popup-api-response {
   display: flex;
-  font-size: clamp(0.95rem, 2vw, 1.8rem);
-  font-weight: 200;
+  font-size: clamp(0.95rem, 1vw, 1.5rem);
+  font-weight: 150;
   flex-shrink: 0;
-  height: 2vw;
+  height: 4vw;
   width: 100vw;
   background-color: white;
   padding: 10px;
