@@ -372,7 +372,7 @@ button[popovertarget="my-popover"] {
   /* Use transform to shift the div back by half of its own width and height */
   transform: translate(-50%, -50%);
   width: clamp(520px, 50vw, 600px);
-  height: clamp(350px, 50vh, 40vh);
+  height: clamp(350px, 50vh, 60vh);
 }
 
 /* Class to display the pop-up */
@@ -436,7 +436,7 @@ button[popovertarget="my-popover"] {
 
 .popup-api-response {
   display: flex;
-  font-size: clamp(0.95rem, 1vw, 1.5rem);
+  font-size: clamp(1rem, 1vw, 1.5rem);
   font-weight: 150;
   flex-shrink: 0;
   height: 4vw;
