@@ -436,13 +436,14 @@ button[popovertarget="my-popover"] {
 
 .popup-api-response {
   display: flex;
-  font-size: clamp(0.85rem, 1vw, 1.1rem);
-  font-weight: 100;
+  font-size: clamp(0.95rem, 2vw, 1.8rem);
+  font-weight: 200;
   flex-shrink: 0;
-  height: 5vw;
+  height: 2vw;
   width: 100vw;
   background-color: white;
   padding: 10px;
+  margin: 5px;
 }
 /*Style  synonym-network-app buttons*/
 .popup-btns {
