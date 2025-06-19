@@ -32,7 +32,12 @@ document.addEventListener("DOMContentLoaded", function () {
     circle.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
 
     if (Math.abs(rotation) >= 360 * 2) {
-      circle.style.transition = `transform: 6s ease-in-out`;
+      confetti({
+        particleCount: 500,
+        spread: 150,
+        origin: { y: 0.5 }, // Fired from the center of the screen
+      });
+      circle.style.transition = `transform: 9s ease-in-out`;
       rotation = 0;
       circle.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
     }
