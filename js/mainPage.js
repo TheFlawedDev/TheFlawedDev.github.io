@@ -347,8 +347,34 @@ document.addEventListener("DOMContentLoaded", function () {
       // 2. Build the graph elements for Cytoscape
       const elements = [];
       const addedNodes = new Set();
+      const addedEdges = new Set(); // Use a Set for efficient lookup of existing edges
 
-      // Add nodes and edges from the synonyms map
+      // First, explicitly add the nodes and edges that form the main path
+      for (let i = 0; i < path.length - 1; i++) {
+        const sourceWord = path[i];
+        const targetWord = path[i + 1];
+
+        // Add source node if it doesn't exist yet
+        if (!addedNodes.has(sourceWord)) {
+          elements.push({ data: { id: sourceWord } });
+          addedNodes.add(sourceWord);
+        }
+
+        // Add target node if it doesn't exist yet
+        if (!addedNodes.has(targetWord)) {
+          elements.push({ data: { id: targetWord } });
+          addedNodes.add(targetWord);
+        }
+
+        // Add the connecting edge for the path
+        const edgeId = `${sourceWord}-${targetWord}`;
+        elements.push({
+          data: { id: edgeId, source: sourceWord, target: targetWord },
+        });
+        addedEdges.add(edgeId); // Record that this edge has been added
+      }
+
+      // Next, add the remaining contextual synonyms from the map
       for (const word in synonyms) {
         if (!addedNodes.has(word)) {
           elements.push({ data: { id: word } });
@@ -359,9 +385,17 @@ document.addEventListener("DOMContentLoaded", function () {
             elements.push({ data: { id: synonym } });
             addedNodes.add(synonym);
           }
-          elements.push({
-            data: { id: `${word}-${synonym}`, source: word, target: synonym },
-          });
+
+          // Check if an edge between these two words already exists in either direction
+          const edgeId1 = `${word}-${synonym}`;
+          const edgeId2 = `${synonym}-${word}`;
+
+          if (!addedEdges.has(edgeId1) && !addedEdges.has(edgeId2)) {
+            elements.push({
+              data: { id: edgeId1, source: word, target: synonym },
+            });
+            addedEdges.add(edgeId1); // Record the new edge
+          }
         });
       }
 
