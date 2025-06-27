@@ -44,11 +44,44 @@ exports.handler = async function (event, context) {
         fetchFromAPI("synonyms", word1, word2, apiKey),
       ]);
 
+      // Flatten all synonym arrays into one deduplicated list
+      const allSynonyms = Object.values(synonyms || {})
+        .flat()
+        .filter(Boolean);
+      const uniqueSynonyms = [...new Set(allSynonyms)];
+
+      let definitions = {};
+      if (uniqueSynonyms.length > 0) {
+        //POST to the /definitions endpoint
+        const defResponse = await fetch(
+          "https://synonym-network-api.onrender.com/api/graph/definitions",
+          {
+            method: "POST",
+            headers: {
+              "x-api-key": apiKey,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(uniqueSynonyms),
+          },
+        );
+
+        if (!defResponse.ok) {
+          console.warn(
+            `Definitions request failed with status: ${defResponse.status}`,
+          );
+          // Don't throw error, just continue with empty definitions
+          definitions = {};
+        } else {
+          definitions = await defResponse.json();
+        }
+      }
+
       // Bundle the results into a single JSON object
       const responsePayload = {
         path,
         level,
         synonyms,
+        definitions,
       };
 
       return {

@@ -419,19 +419,37 @@ button[popovertarget="my-popover"] {
   color: #616161;
 }
 /*Style  synonym-network-app body*/
-.popup-body {
+.popup-body,
+.def-popup-body {
   padding: 20px 15px;
   background-color: white;
   flex: 1;
   overflow-y: auto;
   min-height: 0;
 }
+/* Specific styling for definitions popup body */
+.def-popup-body {
+  padding: 0; /* Remove padding since we'll handle it in the displayDefinitions function */
+}
 
-#cy {
+#cy,
+#dy {
   width: 100%;
   height: 100%;
   display: none;
   flex: 1;
+}
+
+/* New style for the scrollable definitions container */
+.definitions-wrapper {
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.definitions-wrapper::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
 }
 
 .popup-api-response {
@@ -482,12 +500,28 @@ button[popovertarget="my-popover"] {
   transition: background-color 0.2s ease;
 }
 
-.popup-btns button:hover {
-  background-color: #0056b3;
+#definition-btn:disabled {
+  background-color: #ccc !important;
+  color: #666 !important;
+  cursor: not-allowed !important;
 }
 
+#definition-btn.ready {
+  background-color: #222 !important;
+  color: white !important;
+  cursor: pointer !important;
+}
+
+#definition-btn.ready:hover {
+  background-color: #0056b3 !important;
+}
+
+.popup-btns button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
 /* Style the close button */
-.close-btn {
+.close-btn,
+.def-close-btn {
   color: #aaa;
   font-size: clamp(1.2rem, 3vw, 1.5rem);
   line-height: 1;
@@ -495,7 +529,9 @@ button[popovertarget="my-popover"] {
 }
 
 .close-btn:hover,
-.close-btn:focus {
+.def-close-btn:hover,
+.close-btn:focus,
+.def-close-btn:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;

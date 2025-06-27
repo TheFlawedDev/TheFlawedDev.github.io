@@ -12,17 +12,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const openPopupButton = document.getElementById("open-popup-app-button");
   const popupWindow = document.getElementById("popup-window");
+  const openDefPopupBtn = document.getElementById("definition-btn");
+  const defPopupWindow = document.getElementById("definitions-popup-window");
+  const defCloseButton = document.querySelector(".def-close-btn");
   const closeButton = document.querySelector(".close-btn");
   const inputField1 = document.getElementById("inputField1");
   const inputField2 = document.getElementById("inputField2");
   const submitBtn = document.getElementById("submit-btn");
   const popupBody = document.querySelector(".popup-api-response");
   const graphContainer = document.getElementById("cy");
+  const definitionContainer = document.getElementById("dy");
+
+  // Store definitions globally for access by definitions button
+  let currentDefinitions = {};
 
   gradientLayer.className = "circle-gradient";
   circle.parentNode.insertBefore(gradientLayer, circle.nextSibling);
 
   window.addEventListener("wheel", (e) => {
+    // If any popup is open, do not rotate the circle
+    if (
+      popupWindow.classList.contains("show") ||
+      defPopupWindow.classList.contains("show")
+    ) {
+      return;
+    }
+
     const delta = e.deltaY;
 
     // Scroll down = positive delta → rotate clockwise
@@ -37,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
         spread: 150,
         origin: { y: 0.5 }, // Fired from the center of the screen
       });
-      circle.style.transition = `transform: 9s ease-in-out`;
+      circle.style.transition = `transform 2s ease-in-out`;
       rotation = 0;
       circle.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
     }
@@ -284,11 +299,121 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("No SoundCloud track found for:", songTitle);
     }
   }
+
+  // Function to display definitions
+  function displayDefinitions(definitions) {
+    // Clear the container first
+    definitionContainer.innerHTML = "";
+
+    if (!definitions || Object.keys(definitions).length === 0) {
+      definitionContainer.innerHTML = "<p>No definitions available.</p>";
+      return;
+    }
+
+    // Create a scrollable container for definitions
+    const definitionsWrapper = document.createElement("div");
+    definitionsWrapper.className = "definitions-wrapper"; // Use a class for styling
+
+    // Create definition entries
+    for (const [word, wordDefinitions] of Object.entries(definitions)) {
+      const wordSection = document.createElement("div");
+      wordSection.style.cssText = `
+        margin-bottom: 20px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+      `;
+
+      // Word title
+      const wordTitle = document.createElement("h3");
+      wordTitle.textContent = word;
+      wordTitle.style.cssText = `
+        color: #333;
+        margin: 0 0 10px 0;
+        font-size: 1.2em;
+        font-weight: bold;
+      `;
+      wordSection.appendChild(wordTitle);
+
+      // Handle different definition structures
+      if (Array.isArray(wordDefinitions)) {
+        // If definitions is an array
+        wordDefinitions.forEach((def, index) => {
+          const defItem = document.createElement("p");
+          defItem.textContent = `${index + 1}. ${def}`;
+          defItem.style.cssText = `
+            margin: 5px 0;
+            color: #555;
+            line-height: 1.4;
+          `;
+          wordSection.appendChild(defItem);
+        });
+      } else if (typeof wordDefinitions === "object") {
+        // If definitions is an object with parts of speech
+        for (const [partOfSpeech, defs] of Object.entries(wordDefinitions)) {
+          const posTitle = document.createElement("h4");
+          posTitle.textContent = partOfSpeech;
+          posTitle.style.cssText = `
+            color: #666;
+            margin: 10px 0 5px 0;
+            font-size: 1em;
+            font-style: italic;
+          `;
+          wordSection.appendChild(posTitle);
+
+          if (Array.isArray(defs)) {
+            defs.forEach((def, index) => {
+              const defItem = document.createElement("p");
+              defItem.textContent = `${index + 1}. ${def}`;
+              defItem.style.cssText = `
+                margin: 5px 0 5px 20px;
+                color: #555;
+                line-height: 1.4;
+              `;
+              wordSection.appendChild(defItem);
+            });
+          } else {
+            const defItem = document.createElement("p");
+            defItem.textContent = defs;
+            defItem.style.cssText = `
+              margin: 5px 0 5px 20px;
+              color: #555;
+              line-height: 1.4;
+            `;
+            wordSection.appendChild(defItem);
+          }
+        }
+      } else {
+        // If definitions is a simple string
+        const defItem = document.createElement("p");
+        defItem.textContent = wordDefinitions;
+        defItem.style.cssText = `
+          margin: 5px 0;
+          color: #555;
+          line-height: 1.4;
+        `;
+        wordSection.appendChild(defItem);
+      }
+
+      definitionsWrapper.appendChild(wordSection);
+    }
+
+    definitionContainer.appendChild(definitionsWrapper);
+    definitionContainer.style.display = "block";
+  }
+
   // 2. Show the pop-up when the button is clicked
   openPopupButton.addEventListener("click", () => {
     console.log("popup button was clicked");
-
     popupWindow.classList.add("show");
+  });
+
+  // 2.1 Show the definition pop-up when the button is clicked
+  openDefPopupBtn.addEventListener("click", () => {
+    console.log("definitions popup button was clicked");
+    defPopupWindow.classList.add("show");
+
+    // Display the current definitions
+    displayDefinitions(currentDefinitions);
   });
 
   // 3. Hide the pop-up when the close button is clicked
@@ -297,12 +422,22 @@ document.addEventListener("DOMContentLoaded", function () {
     popupWindow.classList.remove("show");
   });
 
+  // 3.1 Hide definition popup window
+  defCloseButton.addEventListener("click", () => {
+    console.log("definitions close button clicked");
+    defPopupWindow.classList.remove("show");
+  });
+
   // 4.Hide the pop-up when clicking outside of it
   window.addEventListener("click", (event) => {
     if (event.target == popupWindow) {
       popupWindow.classList.remove("show");
     }
+    if (event.target == defPopupWindow) {
+      defPopupWindow.classList.remove("show");
+    }
   });
+
   submitBtn.addEventListener("click", async () => {
     const word1 = inputField1.value.trim().toLowerCase();
     const word2 = inputField2.value.trim().toLowerCase();
@@ -312,6 +447,11 @@ document.addEventListener("DOMContentLoaded", function () {
         '<p style="color: black;">Please enter both words.</p>';
       return;
     }
+
+    // Disable the definitions button immediately when starting a new search
+    openDefPopupBtn.disabled = true;
+    openDefPopupBtn.classList.remove("ready");
+    currentDefinitions = {}; // Clear previous definitions
 
     // Show a loading message
     popupBody.innerHTML = "<p>Exploring synonym network...</p>";
@@ -329,12 +469,21 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // We now have { path: [...], level: #, synonyms: {...} }
-      const { path, level, synonyms } = data;
+      // We now have { path: [...], level: #, synonyms: {...}, definitions: {...} }
+      const { path, level, synonyms, definitions } = data;
 
       if (!path || path.length === 0) {
         popupBody.innerHTML = "<p>No path found between these words.</p>";
         return;
+      }
+
+      // Store definitions for later use
+      currentDefinitions = definitions || {};
+
+      // Enable definitions button if we have definitions
+      if (currentDefinitions && Object.keys(currentDefinitions).length > 0) {
+        openDefPopupBtn.disabled = false;
+        openDefPopupBtn.classList.add("ready");
       }
 
       // 1. Display the analysis text
@@ -466,6 +615,11 @@ document.addEventListener("DOMContentLoaded", function () {
       popupBody.innerHTML =
         '<p style="color: red;">An unexpected error occurred.</p>';
       graphContainer.style.display = "none";
+
+      // Make sure definitions button stays disabled on error
+      openDefPopupBtn.disabled = true;
+      openDefPopupBtn.classList.remove("ready");
+      currentDefinitions = {};
     }
   });
 });

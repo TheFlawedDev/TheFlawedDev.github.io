@@ -50,3 +50,6 @@ webpack.common.js
 # Production build files
 build/
 dist/
+
+# Local Netlify folder
+.netlify
