@@ -40,8 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const delta = e.deltaY;
 
-    // Scroll down = positive delta → rotate clockwise
-    // Scroll up = negative delta → rotate counter-clockwise
     rotation += delta * 0.2; // Adjust multiplier for sensitivity
 
     circle.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
@@ -55,6 +53,13 @@ document.addEventListener("DOMContentLoaded", function () {
       circle.style.transition = `transform 2s ease-in-out`;
       rotation = 0;
       circle.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
+      circle.addEventListener(
+        "transitionend",
+        () => {
+          circle.style.transition = "transform 0.4s ease";
+        },
+        { once: true },
+      );
     }
   });
 
