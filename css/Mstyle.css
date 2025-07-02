@@ -14,10 +14,36 @@
 html {
   background-color: #ffffff;
 }
-
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+.blob {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle at center, #ff4081, #ff80ab);
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.6;
+  animation: moveBlob 5s infinite alternate ease-in-out;
+}
+@keyframes moveBlob {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(100px, 200px); }
+}
 body {
   font-family: "Inter Semi Bold", sans-serif;
   font-size: 20px;
+  backdrop-filter: blur(20px);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
 }
 
 header {
@@ -54,6 +80,7 @@ header {
   transform: translateY(-50%);
   transition: transform 0.4s ease;
 }
+
 .circle {
   background: transparent;
   /* keep your size and position styles */
