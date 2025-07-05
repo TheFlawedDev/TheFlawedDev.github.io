@@ -40,8 +40,8 @@ html {
 body {
   font-family: "Inter Semi Bold", sans-serif;
   font-size: 20px;
-  backdrop-filter: blur(20px);
-  background-color: rgba(255, 255, 255, 0.1);
+  /* backdrop-filter: blur(20px); */
+  /* background-color: rgba(255, 255, 255, 0.1); */
   border-radius: 12px;
   padding: 2rem;
 }
