@@ -22,9 +22,33 @@ document.addEventListener("DOMContentLoaded", function () {
   const popupBody = document.querySelector(".popup-api-response");
   const graphContainer = document.getElementById("cy");
   const definitionContainer = document.getElementById("dy");
+  const toggleButton = document.getElementById("modeToggle");
+  const body = document.body;
+  const html = document.documentElement;
+  const modeIcon = toggleButton.querySelector("img");
+  const githubIcon = document.querySelector("#modeGit img");
+  const resumeIcon = document.querySelector("#modeResume img");
 
   // Store definitions globally for access by definitions button
   let currentDefinitions = {};
+
+  // Toggle dark/light mode
+  toggleButton.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    body.classList.toggle("dark-mode");
+    html.classList.toggle("dark-mode");
+
+    if (body.classList.contains("dark-mode")) {
+      modeIcon.src = "img/dayMode.png"; // Toggle button: sun
+      githubIcon.src = "img/gitLight.png"; // GitHub: light version
+      resumeIcon.src = "img/resumeLight.png"; // Resume: light version
+    } else {
+      modeIcon.src = "img/nightMode.png"; // Toggle button: moon
+      githubIcon.src = "img/gitDark.png"; // GitHub: dark version
+      resumeIcon.src = "img/resumeDark.png"; // Resume: default
+    }
+  });
 
   gradientLayer.className = "circle-gradient";
   circle.parentNode.insertBefore(gradientLayer, circle.nextSibling);
